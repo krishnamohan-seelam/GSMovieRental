@@ -1,0 +1,74 @@
+﻿@model GSMovieRental.ViewModels.CustomerFormViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Create a new Customer</h4>
+
+@using (Html.BeginForm("Save","Customer")) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+         
+        <hr />
+        @Html.ValidationSummary(true, "Please fix the following errors", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Customer.Id)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Customer.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Customer.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Customer.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Customer.IsSubscribedToNewsLetter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Customer.IsSubscribedToNewsLetter)
+                    @Html.ValidationMessageFor(model => model.Customer.IsSubscribedToNewsLetter, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Customer.MembershipTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id","Name"), "Select Membership", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Customer.MembershipTypeId,  "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            
+            @*@Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="control-label col-md-2" >
+                <label for="BirthDate" >Date Of Birth</label>
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Customer.BirthDate, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Customer.BirthDate, "", new {@class = "text-danger"})
+            </div>
+        </div>
+        
+        @Html.HiddenFor(model => model.Customer.Id)
+        @Html.HiddenFor(model => model.Customer.IsDeleted)
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

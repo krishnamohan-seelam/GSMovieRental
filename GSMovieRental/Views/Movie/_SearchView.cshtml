@@ -1,0 +1,45 @@
+﻿
+@using PagedList.Mvc
+@model PagedList.IPagedList<GSMovieRental.Models.Movie>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 thumb">
+            <div class="offer offer-info">
+                <div class="shape">
+                    <div class="shape-text">
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </div>
+                </div>
+
+                <div class="offer-content">
+                    <br />
+                    <img src=@Url.Content(Html.DisplayFor(modelItem => item.ImageUrl).ToString()) alt="" class="img-thumbnail" width="152" height="118">
+
+                    <p>
+                        <div class="text-info">
+                            <strong> @Html.DisplayFor(modelItem => item.Title)</strong>
+                        </div>
+
+                        Genre: @Html.DisplayFor(modelItem => item.Genre)
+
+                        Released on:@Html.DisplayFor(modelItem => item.ReleaseDate)
+                        <br />
+
+                        @*
+
+                            @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |@Html.ActionLink("Details", "Details", new {id = item.Id}) |
+                            @Html.ActionLink("Delete", "Delete", new {id = item.Id})
+                        *@
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<div class="PageList" data-movies-target="#ReviewList">
+    @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { pageNumber, currentFilter = ViewBag.CurrentFilter }), PagedListRenderOptions.MinimalWithItemCountText)
+</div>
